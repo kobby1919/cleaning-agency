@@ -6,6 +6,16 @@ import Contact from "./pages/Contact";
 import Header from "./components/Header";
 
 
+// Scroll to top on every route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+  return null;
+}
+
+
 function App() {
   return (
     <>

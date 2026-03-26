@@ -1,39 +1,75 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sparkles } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
-  { name: "Home",         href: "#home" },
-  { name: "Services",     href: "#services" },
-  { name: "About",        href: "#about" },
-  { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact",      href: "#contact" },
+  { name: "Home",         href: "/",              anchor: null },
+  { name: "Services",     href: "/services",      anchor: null },
+  { name: "About",        href: "/about",         anchor: null },
+  { name: "Testimonials", href: "/",              anchor: "#testimonials" },
+  { name: "Contact",      href: "/",              anchor: "#contact" },
 ];
 
 export default function Navbar() {
   const [isOpen,   setIsOpen]   = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [active,   setActive]   = useState("home");
+  const [active,   setActive]   = useState("/");
+
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const isHome    = location.pathname === "/";
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 30);
-      const sections = NAV_LINKS.map(l => l.href.slice(1));
-      for (const id of [...sections].reverse()) {
-        const el = document.getElementById(id);
-        if (el && window.scrollY >= el.offsetTop - 120) {
-          setActive(id);
-          break;
-        }
-      }
-    };
+    setActive(location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrollTo = (href) => {
+  // Close mobile menu on route change
+  useEffect(() => { setIsOpen(false); }, [location.pathname]);
+
+  const handleNavClick = (e, link) => {
+    e.preventDefault();
     setIsOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+
+    if (link.anchor) {
+      // Has anchor — go home first if not already there, then scroll
+      if (!isHome) {
+        navigate("/");
+        setTimeout(() => {
+          document.querySelector(link.anchor)?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      } else {
+        document.querySelector(link.anchor)?.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      navigate(link.href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const isLinkActive = (link) => {
+    if (link.anchor) return false;
+    if (link.href === "/" && location.pathname === "/") return true;
+    if (link.href !== "/" && location.pathname.startsWith(link.href)) return true;
+    return false;
+  };
+
+  const scrollTo = (anchor) => {
+    setIsOpen(false);
+    if (!isHome) {
+      navigate("/");
+      setTimeout(() => {
+        document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
+      document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -41,25 +77,25 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      // Always show dark bg when menu is open, even at top of page
-      className={`navbar ${scrolled || isOpen ? "scrolled" : ""}`}
+      className={`navbar ${!isHome || scrolled || isOpen ? "scrolled" : ""}`}
     >
       <div className="navbar-inner">
 
         {/* Logo */}
-        <motion.a
-          href="#home"
-          onClick={(e) => { e.preventDefault(); scrollTo("#home"); }}
-          whileHover={{ scale: 1.03 }}
-          className="navbar-logo"
-        >
-          <div className="navbar-logo-icon">
-            <Sparkles size={18} color="#0a1128" />
-          </div>
-          <span className="navbar-logo-text">
-            Baba <span>&</span> Co
-          </span>
-        </motion.a>
+        <motion.div whileHover={{ scale: 1.03 }}>
+          <Link
+            to="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="navbar-logo"
+          >
+            <div className="navbar-logo-icon">
+              <Sparkles size={18} color="#0a1128" />
+            </div>
+            <span className="navbar-logo-text">
+              Baba <span>&</span> Co
+            </span>
+          </Link>
+        </motion.div>
 
         {/* Desktop links */}
         <div className="navbar-links">
@@ -67,9 +103,9 @@ export default function Navbar() {
             <motion.a
               key={link.name}
               href={link.href}
-              onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
+              onClick={(e) => handleNavClick(e, link)}
               whileHover={{ y: -1 }}
-              className={`navbar-link ${active === link.href.slice(1) ? "active" : ""}`}
+              className={`navbar-link ${isLinkActive(link) ? "active" : ""}`}
             >
               {link.name}
             </motion.a>
@@ -109,8 +145,8 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollTo(link.href); }}
-                  className="navbar-mobile-link"
+                  onClick={(e) => handleNavClick(e, link)}
+                  className={`navbar-mobile-link ${isLinkActive(link) ? "active" : ""}`}
                 >
                   {link.name}
                 </a>
