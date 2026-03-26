@@ -7,8 +7,7 @@ const NAV_LINKS = [
   { name: "Home",         href: "/",              anchor: null },
   { name: "Services",     href: "/services",      anchor: null },
   { name: "About",        href: "/about",         anchor: null },
-  { name: "Testimonials", href: "/",              anchor: "#testimonials" },
-  { name: "Contact",      href: "/",              anchor: "#contact" },
+  { name: "Contact",      href: "/contact",       anchor: null },
 ];
 
 export default function Navbar() {
