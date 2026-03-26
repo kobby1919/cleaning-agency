@@ -41,7 +41,8 @@ export default function Navbar() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className={`navbar ${scrolled ? "scrolled" : ""}`}
+      // Always show dark bg when menu is open, even at top of page
+      className={`navbar ${scrolled || isOpen ? "scrolled" : ""}`}
     >
       <div className="navbar-inner">
 
