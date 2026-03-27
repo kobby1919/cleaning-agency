@@ -67,7 +67,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService = "" 
 
   // Lock body scroll when open
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
+    document.documentElement.style.overflow = isOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
@@ -140,7 +140,7 @@ export default function BookingModal({ isOpen, onClose, preSelectedService = "" 
             className="booking-backdrop"
           />
 
-          <div className="booking-modal-wrap">
+          <div className="booking-modal-wrap" data-lenis-prevent>
             {/* Modal */}
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.97 }}

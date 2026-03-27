@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Phone } from "lucide-react";
 
-export default function CTABanner() {
-  const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+export default function CTABanner({ onBook }) {
 
   return (
     <section className="cta-section">
@@ -34,7 +33,7 @@ export default function CTABanner() {
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => scrollTo("#contact")}
+              onClick={() => onBook?.()}
               className="cta-btn-primary"
             >
               Book a Cleaning <ArrowRight size={16} />

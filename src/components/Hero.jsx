@@ -14,7 +14,7 @@ const BADGES = [
   "Insured & Bonded",
 ];
 
-export default function HeroCentered() {
+export default function HeroCentered({ onBook }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y       = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
@@ -128,7 +128,7 @@ export default function HeroCentered() {
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => scrollTo("#contact")}
+            onClick={() => onBook?.()}
             className="hero-btn-primary"
           >
             Book a Cleaning <ArrowRight size={16} />

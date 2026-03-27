@@ -2531,6 +2531,8 @@ body {
   background: var(--white);
   border-radius: var(--radius-xl);
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   pointer-events: auto;
   box-shadow:
     0 40px 100px rgba(0,0,0,0.35),

@@ -7,7 +7,6 @@ const NAV_LINKS = [
   { name: "Home",         href: "/",              anchor: null },
   { name: "Services",     href: "/services",      anchor: null },
   { name: "About",        href: "/about",         anchor: null },
-  { name: "Contact",      href: "/contact",       anchor: null },
 ];
 
 export default function Navbar() {
@@ -59,16 +58,10 @@ export default function Navbar() {
     return false;
   };
 
-  const scrollTo = (anchor) => {
+  const goToContact = () => {
     setIsOpen(false);
-    if (!isHome) {
-      navigate("/");
-      setTimeout(() => {
-        document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    } else {
-      document.querySelector(anchor)?.scrollIntoView({ behavior: "smooth" });
-    }
+    navigate("/contact");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -112,7 +105,7 @@ export default function Navbar() {
           <motion.button
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            onClick={() => scrollTo("#contact")}
+            onClick={goToContact}
             className="navbar-cta"
           >
             Get a Quote
@@ -151,7 +144,7 @@ export default function Navbar() {
                 </a>
               ))}
               <button
-                onClick={() => scrollTo("#contact")}
+                onClick={goToContact}
                 className="navbar-mobile-cta"
               >
                 Get a Quote

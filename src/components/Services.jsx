@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const SERVICES = [
   {
@@ -96,8 +97,12 @@ const fadeUp = {
   }),
 };
 
-export default function Services() {
-  const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+export default function Services({ onBook }) {
+  const navigate = useNavigate();
+  const goToContact = () => {
+    navigate("/contact");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <section id="services" className="services-section">
@@ -174,7 +179,7 @@ export default function Services() {
 
               {/* CTA */}
               <button
-                onClick={() => scrollTo("#contact")}
+                onClick={() => onBook?.(service.title)}
                 className="service-card-cta"
               >
                 Book This Service
@@ -196,7 +201,7 @@ export default function Services() {
             Not sure which service you need?
           </p>
           <button
-            onClick={() => scrollTo("#contact")}
+            onClick={goToContact}
             className="hero-btn-primary"
           >
             Get a Free Consultation <ArrowRight size={16} />

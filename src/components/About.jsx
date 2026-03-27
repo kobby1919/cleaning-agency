@@ -66,7 +66,7 @@ const CERTIFICATIONS = [
   "Satisfaction Guaranteed",
 ];
 
-export default function About() {
+export default function About({ onBook }) {
   const scrollTo = (href) => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
 
   return (
@@ -347,7 +347,7 @@ export default function About() {
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => scrollTo("#contact")}
+                onClick={() => onBook?.()}
                 className="cta-btn-primary"
               >
                 Book a Cleaning <ArrowRight size={16} />
