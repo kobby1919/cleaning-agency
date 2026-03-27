@@ -98,6 +98,12 @@ body {
   box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.25);
 }
 
+.navbar-logo-image {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
 .navbar-logo-text {
   font-family: var(--serif);
   font-size: 20px;

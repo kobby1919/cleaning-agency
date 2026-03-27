@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NAV_LINKS = [
@@ -81,7 +81,7 @@ export default function Navbar() {
             className="navbar-logo"
           >
             <div className="navbar-logo-icon">
-              <Sparkles size={18} color="#0a1128" />
+              <img src="/favicon.svg" alt="Baba and Co logo" className="navbar-logo-image" />
             </div>
             <span className="navbar-logo-text">
               Baba <span>&</span> Co
